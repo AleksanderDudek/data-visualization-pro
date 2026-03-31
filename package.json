@@ -14,9 +14,11 @@
     "storybook": "npm run storybook -w packages/client",
     "build-storybook": "npm run build-storybook -w packages/client",
     "lint": "eslint packages/*/src --ext .ts,.tsx",
-    "typecheck": "tsc --build"
+    "typecheck": "tsc --build",
+    "chromatic": "npx chromatic"
   },
   "devDependencies": {
+    "chromatic": "^16.0.0",
     "concurrently": "^8.2.2",
     "typescript": "^5.4.5"
   }
