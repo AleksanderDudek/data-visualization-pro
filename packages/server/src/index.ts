@@ -16,6 +16,7 @@ import { WeatherAPI } from "./datasources/weatherAPI.js";
 
 const isProd = process.env.NODE_ENV === "production";
 
+// Absurd facts generator (for fun analytics)
 // Parse comma-separated allowed origins from env (e.g. https://user.github.io)
 const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? "")
   .split(",")
