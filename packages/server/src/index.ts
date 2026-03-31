@@ -23,6 +23,11 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? "")
   .map((o) => o.trim())
   .filter(Boolean);
 
+const introspectionEnabled = process.env.ENABLE_INTROSPECTION === "true" || !isProd;
+if (introspectionEnabled) {
+  allowedOrigins.push("https://sandbox.embed.apollographql.com");
+}
+
 const app = express();
 
 // Security headers (API-only server — no HTML served)
@@ -77,7 +82,7 @@ const server = new ApolloServer<GQLContext>({
   typeDefs,
   resolvers,
   // Disable introspection in production to avoid schema leakage
-  introspection: process.env.ENABLE_INTROSPECTION === "true" || !isProd,
+  introspection: introspectionEnabled,
   // Reject queries deeper than 5 levels
   validationRules: [depthLimit(5)],
 });
