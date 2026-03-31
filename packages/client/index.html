@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌌 Galactic Data Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>" />
+    <script>
+      // Restore path encoded by 404.html for GitHub Pages SPA routing
+      (function () {
+        var p = new URLSearchParams(location.search).get("p");
+        if (p) {
+          var decoded = decodeURIComponent(p);
+          // Guard against open-redirect: only allow same-origin relative paths
+          if (decoded.startsWith("/") && !decoded.startsWith("//")) {
+            history.replaceState(null, "", decoded);
+          }
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

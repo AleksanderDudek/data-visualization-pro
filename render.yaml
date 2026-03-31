@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: dataviz-pro-graphql
+    runtime: node
+    rootDir: packages/server
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ALLOWED_ORIGINS
+        sync: false  # Set this manually in the Render dashboard to your GitHub Pages URL
+                     # e.g. https://YOUR_USERNAME.github.io

@@ -1,0 +1,59 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build React app
+        run: npm run build -w packages/client
+        env:
+          # GitHub Pages serves under /<repo-name>/ for project pages
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+          # Set VITE_GRAPHQL_URL in repo Settings → Secrets → Actions
+          VITE_GRAPHQL_URL: ${{ secrets.VITE_GRAPHQL_URL }}
+
+      - name: Build Storybook
+        run: npm run build-storybook -w packages/client
+
+      # Place Storybook at /storybook inside the Pages site
+      - name: Merge Storybook into dist
+        run: mv packages/client/storybook-static packages/client/dist/storybook
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: packages/client/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
