@@ -26,7 +26,21 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? "")
 const app = express();
 
 // Security headers (API-only server — no HTML served)
-app.use(helmet({ contentSecurityPolicy: isProd, crossOriginEmbedderPolicy: false }));
+// /graphql gets relaxed CSP so Apollo Sandbox can load from its CDN
+app.use("/graphql", helmet({
+  contentSecurityPolicy: isProd ? {
+    directives: {
+      defaultSrc: ["'self'", "https://embeddable-sandbox.cdn.apollographql.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://embeddable-sandbox.cdn.apollographql.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://embeddable-sandbox.cdn.apollographql.com"],
+      imgSrc: ["'self'", "data:", "https://embeddable-sandbox.cdn.apollographql.com"],
+      connectSrc: ["'self'", "https://"],
+      frameSrc: ["https://sandbox.embed.apollographql.com"],
+    },
+  } : false,
+  crossOriginEmbedderPolicy: false,
+}));
+app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 
 // CORS — locked to explicit allowlist in production, permissive in dev
 app.use(
