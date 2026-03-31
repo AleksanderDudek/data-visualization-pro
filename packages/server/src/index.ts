@@ -57,7 +57,7 @@ const server = new ApolloServer<GQLContext>({
   typeDefs,
   resolvers,
   // Disable introspection in production to avoid schema leakage
-  introspection: !isProd,
+  introspection: process.env.ENABLE_INTROSPECTION === "true" || !isProd,
   // Reject queries deeper than 5 levels
   validationRules: [depthLimit(5)],
 });
