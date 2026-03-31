@@ -27,14 +27,20 @@ const app = express();
 
 // Security headers (API-only server — no HTML served)
 // /graphql gets relaxed CSP so Apollo Sandbox can load from its CDN
+const apolloCDNs = [
+  "https://apollo-server-landing-page.cdn.apollographql.com",
+  "https://embeddable-sandbox.cdn.apollographql.com",
+];
 app.use("/graphql", helmet({
   contentSecurityPolicy: isProd ? {
     directives: {
-      defaultSrc: ["'self'", "https://embeddable-sandbox.cdn.apollographql.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://embeddable-sandbox.cdn.apollographql.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://embeddable-sandbox.cdn.apollographql.com"],
-      imgSrc: ["'self'", "data:", "https://embeddable-sandbox.cdn.apollographql.com"],
-      connectSrc: ["'self'", "https://"],
+      defaultSrc: ["'self'", ...apolloCDNs],
+      scriptSrc: ["'self'", "'unsafe-inline'", ...apolloCDNs],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", ...apolloCDNs],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", ...apolloCDNs],
+      imgSrc: ["'self'", "data:", ...apolloCDNs],
+      connectSrc: ["'self'", "https://studio.apollographql.com", ...apolloCDNs],
+      manifestSrc: [...apolloCDNs],
       frameSrc: ["https://sandbox.embed.apollographql.com"],
     },
   } : false,
