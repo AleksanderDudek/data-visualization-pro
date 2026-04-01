@@ -4,6 +4,15 @@
 
 A full-stack TypeScript application that treats data from multiple free APIs as one unified galactic database. Because why just look at country populations when you can compare them to Pikachu's attack stat?
 
+## 🛸 Overview and links
+
+<img width="1912" height="787" alt="Screenshot 2026-04-01 at 09 09 31" src="https://github.com/user-attachments/assets/ec50b61e-5ce7-4359-ade7-bf6fb1f2a57a" />
+
+The project uses several technologies (all mentioned below). For showcasing some of them you can access:
+- the app: https://aleksanderdudek.github.io/data-visualization-pro/
+- storybook: https://69cbc9e847376109cb5f127b-umvchfloib.chromatic.com/
+- graphQL endpoint: https://data-visualization-pro.onrender.com/graphql
+
 ## 🛸 The Concept
 
 The Galactic Data Dashboard is a tongue-in-cheek analytics platform that unifies disparate data sources through a single GraphQL API:
